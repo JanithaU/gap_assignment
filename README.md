@@ -6,6 +6,6 @@
 * -- Create Super User : docker-compose exec app python manage.py createsuperuser
 
 - API endpoints updated 
-- USE POSTMAN insted of broweser, use the attached postman collection and import to postman -> https://api.postman.com/collections/10324899-7a89e1b0-ec16-4733-93de-8b3ab0e01051?access_key=PMAT-01HB6V6VNZTGVDPS2R40BX7D8K 
+- USE POSTMAN insted of broweser, use the attached postman collection and import to postman -> https://www.postman.com/janithau/workspace/pub/collection/10324899-edbaf9c6-ebef-4f87-ba02-4a3e523e4a9c?action=share&creator=10324899
 - read the Assignment Documentation.pdf carefully.
 - removed the hard-coded environment variables and secrets(make sure the .env file is available)

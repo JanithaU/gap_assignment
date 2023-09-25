@@ -27,7 +27,7 @@ def apiOverview(request):
         'Token': 'api/token',
 
         "ASSIGNEMENT": "----->",
-        "POSTMAN COLLECTION": "you can find it in the repository, or via this url --> https://api.postman.com/collections/10324899-7a89e1b0-ec16-4733-93de-8b3ab0e01051?access_key=PMAT-01HB6V6VNZTGVDPS2R40BX7D8K" 
+        "POSTMAN COLLECTION": "you can find it in the repository, or via this url --> https://www.postman.com/janithau/workspace/pub/collection/10324899-edbaf9c6-ebef-4f87-ba02-4a3e523e4a9c?action=share&creator=10324899" 
         }
     return Response(api_urls)
 
