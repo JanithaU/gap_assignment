@@ -8,3 +8,4 @@ sqlparse==0.4.4
 tzdata==2023.3
 psycopg2-binary
 psycopg2==2.9.7
+python-dotenv
