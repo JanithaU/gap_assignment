@@ -3,7 +3,9 @@ from . import views
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
+    TokenVerifyView,
 )
+
 
 #URL CONF
 urlpatterns = [
@@ -20,7 +22,8 @@ urlpatterns = [
    
     path('parts/', views.partList, name="part-list"),
     path('part/details/<int:pk>', views.partDetails, name="part-detail"),
-    
+    path('part/create/', views.partCreate, name="part-create"),
+
     path('cart/', views.cartList, name="cart"),
     path('cart/create/',views.cartCreate, name="cart-create"),
     path('cart/delete/<str:pk>',views.cartDelete, name="cart-delete"),
@@ -34,4 +37,6 @@ urlpatterns = [
     
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('invalid/', views.invalidRequest, name='invalid-path'),
 ]

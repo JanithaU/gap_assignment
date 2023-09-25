@@ -15,13 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.views.generic import RedirectView
+
+handler404 = 'api.views.view_404' 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/',include('api.urls')),
+    path('accounts/profile/', RedirectView.as_view(pattern_name='user-list', permanent=False))
 
 ]
 
 urlpatterns += [
     path('api-auth/', include('rest_framework.urls'))
+    
 ]

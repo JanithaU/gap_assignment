@@ -3,16 +3,18 @@ from car_part_sale.models import *
 from . serializers import *
 from rest_framework.decorators import api_view , authentication_classes, permission_classes
 from rest_framework.response import Response
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import SessionAuthentication
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.fields import CurrentUserDefault
 import uuid
 import random
+from django.shortcuts import redirect
 
 
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def apiOverview(request):
     api_urls = {
@@ -22,17 +24,18 @@ def apiOverview(request):
         'Parts': 'api/parts/',
         'Cart': 'api/cart/',
         'Orders': 'api/orders',
-        'Token': 'api/token'
+        'Token': 'api/token',
 
-    }
-
+        "ASSIGNEMENT": "----->",
+        "POSTMAN COLLECTION": "you can find it in the repository, or via this url --> https://api.postman.com/collections/10324899-7a89e1b0-ec16-4733-93de-8b3ab0e01051?access_key=PMAT-01HB6V6VNZTGVDPS2R40BX7D8K" 
+        }
     return Response(api_urls)
 
 
 
 ### List All users
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def userList(request):
     users = User.objects.all()
@@ -43,7 +46,7 @@ def userList(request):
 
 ### Register New User
 @api_view(['POST'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def userCreate(request):
     serializer = UserCreateSerializer(data=request.data)
@@ -63,7 +66,7 @@ def userCreate(request):
 
 ### List Categories
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def categoryList(request):
     category = Category.objects.all()
@@ -73,7 +76,7 @@ def categoryList(request):
 
 
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def catDetail(request,pk):
     categoeries = Category.objects.get(id = pk)
@@ -82,7 +85,7 @@ def catDetail(request,pk):
 
 
 @api_view(['POST'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def catCreate(request):
     serializer = CategoryAllSerializer(data = request.data)
@@ -93,7 +96,7 @@ def catCreate(request):
 
 
 @api_view(['POST'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def catUpdate(request,pk):
     categoery = Category.objects.get(id = pk)
@@ -104,7 +107,7 @@ def catUpdate(request,pk):
 
 
 @api_view(['DELETE'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def catDelete(request,pk):
     categoery = Category.objects.get(id = pk)
@@ -114,7 +117,7 @@ def catDelete(request,pk):
 
 
 @api_view(['POST'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def catCreate(request):
     serializer = CategoryAllSerializer(data = request.data)
@@ -125,7 +128,7 @@ def catCreate(request):
 
 ### List Parts
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def partList(request):
     part = Part.objects.all()
@@ -134,7 +137,7 @@ def partList(request):
 
 
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def partDetails(request, pk):
     part = Part.objects.get(id = pk)
@@ -145,7 +148,7 @@ def partDetails(request, pk):
 
 ### List Cart
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def cartList(request):
     cart = Cart.objects.filter(user = request.user)
@@ -154,7 +157,7 @@ def cartList(request):
 
 
 @api_view(['POST'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def cartCreate(request):
     print(request.data['part'])
@@ -177,7 +180,7 @@ def cartCreate(request):
 
 
 @api_view(['DELETE'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def cartDelete(request,pk):
     cart = Cart.objects.filter(user = request.user,id = pk).first()
@@ -191,7 +194,7 @@ def cartDelete(request,pk):
 
 ##order_view
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def orderList(request):
     order = Order.objects.filter(user = request.user)
@@ -200,7 +203,7 @@ def orderList(request):
 
 ##orderView single
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def orderView(request,pk):
     order = Order.objects.get(id = pk)
@@ -209,7 +212,7 @@ def orderView(request,pk):
 
 ##order_status_update
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def orderUpdate(request,pk):
     order = Order.objects.get(id = pk)
@@ -229,7 +232,7 @@ def orderUpdate(request,pk):
 
 ##order_status_update_delivered
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def orderDelivered(request,pk):
     order = Order.objects.get(id = pk)
@@ -246,7 +249,7 @@ def orderDelivered(request,pk):
 
 ##order_create
 @api_view(['POST'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def orderCreate(request):
     name = (request.data['name'])
@@ -293,3 +296,48 @@ def orderCreate(request):
     else:
         return Response({'status':"Already Created, Empty cart!"})
     
+
+@api_view(['GET','POST'])
+@permission_classes([IsAuthenticated])
+def invalidRequest(request):   
+    return Response({'status':"Invalid Request !"})
+
+
+
+def view_404(request, exception=None):
+# make a redirect to homepage
+# you can use the name of url or just the plain link
+    return redirect(invalidRequest)
+
+
+###add parts
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def partCreate(request):
+#     ###
+#    "slug": "part AA",
+#         "name": "tyre AA",
+#         "model": "cear",
+#         "description": "this is a fucking tyre",
+#         "price": "55000.00",
+#         "category": "1"
+#     ###    
+    
+    slug = (request.data['slug'])
+    name = (request.data['name'])
+    model = (request.data['model'])
+    description = (request.data['description'])
+    price = request.data['price']
+    category = int(request.data['category'])
+    stock = int(request.data['stock'])
+
+    part = Part.objects.filter(slug=slug, name=name, Category=category, description=description, model=model,price=price)
+    if part:
+        return Response({'status':"Already Added !"})
+
+    else:
+        c_cat =Category.objects.get(id=category)
+        c_part = Part.objects.create(slug=slug, name=name, Category=c_cat, description=description, model=model,price=price, stock=stock)
+
+        return Response({'status':"Part Added Successfully"})        
